@@ -196,7 +196,7 @@ with tab2:
         co2_saved_g = fuel_saved_ml * 2.31
 
         comparison_data = {
-            "Metric": ["Path Distance", "Energy Cost Score", "Estimated Fuel Used", "Estimated CO₂ Generated"],
+            "Metric": ["Path Distance", "Energy Cost Score", "Estimated Fuel", "Estimated CO₂"],
             "Standard Route (Red)": [f"{standard_dist:.0f} m", f"{std_cost:.1f}", f"{(standard_dist/1000)*0.08:.2f} L", f"{((standard_dist/1000)*0.08)*2310:.0f} g"],
             "EcoRoute (Green)": [f"{eco_dist:.0f} m", f"{eco_cost:.1f}", f"{((standard_dist/1000)*0.08) - (fuel_saved_ml/1000):.2f} L", f"{(((standard_dist/1000)*0.08)*2310) - co2_saved_g:.0f} g"],
             "Net Difference": [f"+{dist_diff:.0f} m ({dist_diff_pct:+.1f}%)", f"-{energy_saved_pct:.1f}% Energy", f"-{fuel_saved_ml:.1f} mL", f"-{co2_saved_g:.1f} g"]
@@ -228,8 +228,8 @@ with tab2:
             linestyle="--",
         )
 
-        ax.set_xlabel("Distance Traveled (meters)", fontsize=11)
-        ax.set_ylabel("Elevation (meters above sea level)", fontsize=11)
+        ax.set_xlabel("Distance Traveled (metres)", fontsize=11)
+        ax.set_ylabel("Elevation (metres above sea level)", fontsize=11)
         ax.grid(True, linestyle=":", alpha=0.6)
         ax.legend(frameon=True)
 
@@ -249,12 +249,12 @@ with tab2:
         with col_a:
             st.info(
                 f"**Distance Trade-off:**\n"
-                f"The EcoRoute adds **{max(0, dist_diff):.0f} meters** of extra travel distance, bypassing steep elevation spikes."
+                f"The EcoRoute adds **{max(0, dist_diff):.0f} meters** of extra travel distance, but bypasses steep elevation changes."
             )
         with col_b:
             st.success(
                 f"**Energy Efficiency:**\n"
-                f"Despite the extra distance, the vehicle engine performs **{energy_saved_pct:.1f}% less overall mechanical work**."
+                f"Despite the extra distance, the vehicle engine performs **{energy_saved_pct:.1f}% less overall work**."
             )
 
     else:
@@ -277,15 +277,15 @@ with tab3:
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("**Rolling Friction ($F_{\\text{friction}}$)**")
-        st.caption("Resistance between tires and road surface.")
+        st.caption("Resistance between tires and road.")
         st.latex(r"F_{\text{friction}} = \mu \cdot m \cdot g")
     with col2:
         st.markdown("**Aerodynamic Drag ($F_{\\text{drag}}$)**")
-        st.caption("Air resistance acting on the vehicle body.")
+        st.caption("Air resistance acting on the vehicle.")
         st.latex(r"F_{\text{drag}} = \frac{1}{2} \rho v^2 C_d A")
     with col3:
         st.markdown("**Gravitational Resistance ($F_{\\text{gravity}}$)**")
-        st.caption("Extra force required to overcome uphill slopes.")
+        st.caption("Extra force required to overcome slopes.")
         st.latex(r"F_{\text{gravity}} = m \cdot g \cdot \text{grade}")
 
     st.divider()
@@ -302,17 +302,17 @@ with tab3:
 
     st.markdown(
         "The constant **$\\alpha$** quantifies the extra distance your vehicle could travel on flat land compared to using the same amount of fuel on an incline. "
-        "Because heavier vehicles require significantly more work to climb gradients, $\\alpha$ scales dynamically with vehicle mass."
+        "Since heavier vehicles require more work to climb hills, $\\alpha$ scales dynamically with vehicle mass."
     )
 
     st.markdown(
-        "Each road edge in the graph network is assigned an **Eco Cost** weighting formula:"
+        "Each road edge in the graph network is assigned an **Eco Cost** with this formula:"
     )
     st.latex(
         r"\text{Eco Cost} = \text{Distance} \times \max\left(0.2, \, 1 + \alpha \cdot \text{Grade}\right)")
 
     st.info(
-        "**Note on Downhill Coasting:** The lower cap of $0.2$ accounts for engine idling and braking losses, preventing negative or zero edge weights."
+        "**Note:** The lower cap of $0.2$ accounts for engine idling and braking losses, preventing negative or zero edge weights."
     )
 
     st.divider()
@@ -324,8 +324,8 @@ with tab3:
     with g_col1:
         st.markdown("### OpenStreetMap Graph Model")
         st.markdown(
-            "* **Nodes ($V$):** Intersections and road endpoints embedded with 3D elevation coordinates ($x, y, z$).\n"
-            '* **Edges ($E$):** Directed road segments carrying physical distance ($m$), grade ($\\theta$), and "eco_cost".'
+            "* **Nodes ($V$):** Intersections and road endpoints embedded with 3D coordinates ($x, y, z$).\n"
+            '* **Edges ($E$):** Directed roads carrying physical distance ($m$), grade ($\\theta$), and "eco_cost".'
         )
     with g_col2:
         st.markdown("### Pathfinding Execution")
