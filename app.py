@@ -297,7 +297,7 @@ with tab3:
     st.divider()
 
     # 2. Alpha Factor Derivation
-    st.subheader("2. Elevation Penalty Factor ($\\alpha$)")
+    st.subheader("Elevation Penalty Factor ($\\alpha$)")
     st.markdown(
         "The constant **$\\alpha$** quantifies how much an incline increases fuel consumption compared to flat travel. "
         "Because heavier vehicles require significantly more work to climb gradients, $\\alpha$ scales dynamically with vehicle mass."
@@ -316,7 +316,7 @@ with tab3:
     st.divider()
 
     # 3. Graph Theory & Routing Engine
-    st.subheader("3. Graph Theory & Dijkstra's Algorithm")
+    st.subheader("Graph Theory & Dijkstra's Algorithm")
 
     g_col1, g_col2 = st.columns(2)
     with g_col1:
