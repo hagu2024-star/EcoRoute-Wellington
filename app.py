@@ -273,12 +273,6 @@ with tab3:
     )
 
     alpha_val = getattr(app, "ALPHA", None)
-    if alpha_val is not None:
-        st.success(
-            f"**Live Parameter:** Selected Vehicle Weight $\\rightarrow$ **$\\alpha = {alpha_val:.2f}$**")
-    else:
-        st.info(
-            "Please select a vehicle in the sidebar to display live dynamic parameters.")
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -298,19 +292,27 @@ with tab3:
 
     # 2. Alpha Factor Derivation
     st.subheader("Elevation Penalty Factor ($\\alpha$)")
+
+    if alpha_val is not None:
+        st.success(
+            f"**Live Parameter:** Selected Vehicle Weight $\\rightarrow$ **$\\alpha = {alpha_val:.2f}$**")
+    else:
+        st.info(
+            "Please select a vehicle in the sidebar to display live dynamic parameters.")
+
     st.markdown(
-        "The constant **$\\alpha$** quantifies how much an incline increases fuel consumption compared to flat travel. "
+        "The constant **$\\alpha$** quantifies the extra distance your vehicle could travel on flat land compared to using the same amount of fuel on an incline. "
         "Because heavier vehicles require significantly more work to climb gradients, $\\alpha$ scales dynamically with vehicle mass."
     )
 
     st.markdown(
-        "Each road edge in the graph network is assigned an **Eco-Cost** weighting formula:"
+        "Each road edge in the graph network is assigned an **Eco Cost** weighting formula:"
     )
     st.latex(
         r"\text{Eco Cost} = \text{Distance} \times \max\left(0.2, \, 1 + \alpha \cdot \text{Grade}\right)")
 
     st.info(
-        "**Note on Downhill Coasting:** The lower cap of $0.2$ accounts for engine idling, braking losses, and energy regeneration on downhill slopes, preventing negative or zero edge weights."
+        "**Note on Downhill Coasting:** The lower cap of $0.2$ accounts for engine idling and braking losses, preventing negative or zero edge weights."
     )
 
     st.divider()
@@ -322,12 +324,12 @@ with tab3:
     with g_col1:
         st.markdown("### OpenStreetMap Graph Model")
         st.markdown(
-            "* **Nodes ($V$):** Intersections, junctions, and road endpoints embedded with 3D elevation coordinates ($x, y, z$).\n"
-            "* **Edges ($E$):** Directed road segments carrying physical length ($m$), incline grade ($\\theta$), and weighted `eco_cost`."
+            "* **Nodes ($V$):** Intersections and road endpoints embedded with 3D elevation coordinates ($x, y, z$).\n"
+            '* **Edges ($E$):** Directed road segments carrying physical distance ($m$), grade ($\\theta$), and "eco_cost".'
         )
     with g_col2:
         st.markdown("### Pathfinding Execution")
         st.markdown(
-            "* **Standard Route:** Uses Dijkstra's algorithm where edge weight $w_e = \\text{length}$.\n"
+            "* **Standard Route:** Uses Dijkstra's algorithm where edge weight $w_e = \\text{distance}$.\n"
             "* **EcoRoute:** Uses Dijkstra's algorithm where edge weight $w_e = \\text{eco\\_cost}$.\n"
         )
