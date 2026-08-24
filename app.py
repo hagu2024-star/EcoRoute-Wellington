@@ -141,6 +141,8 @@ with tab1:
             d_arrow = "down"
         elif savings_pct < 0:
             d_arrow = "up"
+        else:
+            d_arrow = "off"
 
         with st.container(border=True):
             # display data
