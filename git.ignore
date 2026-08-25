@@ -1,7 +1,18 @@
+# Python cache files
 __pycache__/
+*.pyc
+
+# Local editor settings & cache
 .vscode/
 cache/
-map.html/
-cache/
-.vscode/
+Versions/
+
+
+.streamlit/secrets.toml
+
+# OS generated files
 .DS_Store
+
+# Temporary local images
+image.png
+map.html
