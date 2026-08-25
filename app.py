@@ -223,9 +223,7 @@ with tab2:
         print(f"Elevation change (m):       {elevation_change:.1f} m")
         print(
             f"Max elevation:        {max(max_eco_elev, max_std_elev)} m")
-        print(f"Average grade:      {(elevation_change/eco_dist)}")
-        print(
-            f"%Fuel Saved:      {((std_fuel_L-eco_fuel_L)/std_fuel_L)*100}%")
+        print(f"Average grade:      {(elevation_change/eco_dist)*100:.2f} %14")
         print(
             f"%CO2 reduced:     {((std_co2_kg-eco_co2_kg)/std_co2_kg)*100}%")
         print(f"Distance difference:        {dist_diff:.0f} m")
