@@ -141,10 +141,10 @@ class EcoRoute:
         )
 
         # draw standard route
-        fl.PolyLine(locations=standard_coords, color="#ff0000",
+        fl.PolyLine(locations=standard_coords, color="#465352",
                     weight=7, tooltip="Standard Route", smooth_factor=0,).add_to(m)
         # draw eco route
-        fl.PolyLine(locations=eco_coords, color="#00ff00",
+        fl.PolyLine(locations=eco_coords, color="#228B22",
                     weight=7, tooltip="Eco Route", smooth_factor=0).add_to(m)
 
         # add start and end markers
