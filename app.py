@@ -197,6 +197,40 @@ with tab2:
         fuel_saved_ml = max(0, cost_dif * 0.08)
         co2_saved_g = fuel_saved_ml * 2.31
 
+        # Unpack profiles here so we can calculate the slope for the table
+        std_dists, std_elevs = st.session_state.std_profile
+        eco_dists, eco_elevs = st.session_state.eco_profile
+
+        max_std_elev = max(std_elevs) if std_elevs else 0
+        max_eco_elev = max(eco_elevs) if eco_elevs else 0
+
+        std_fuel_L = (standard_dist / 1000) * 0.08
+        eco_fuel_L = max(0.0, std_fuel_L - (fuel_saved_ml / 1000))
+        std_co2_kg = (std_fuel_L * 2310) / 1000
+        eco_co2_kg = max(0.0, std_co2_kg - (co2_saved_g / 1000))
+
+        # Calculate net elevation difference between start and end (in metres)
+        start_elev = std_elevs[0] if std_elevs else 0
+        end_elev = std_elevs[-1] if std_elevs else 0
+        elevation_change = end_elev - start_elev
+
+        print("\n" + "="*40)
+        print(f"ROUTE: {start_name} -> {end_name}")
+        print(f"Dijkstra's fuel (L):        {std_fuel_L:.3f} L")
+        print(f"Eco route f2uel (L):        {eco_fuel_L:.3f} L")
+        print(f"Dijkstra's CO2 (kg):        {std_co2_kg:.3f} kg")
+        print(f"Eco route CO2 (kg):        {eco_co2_kg:.3f} kg")
+        print(f"Elevation change (m):       {elevation_change:.1f} m")
+        print(
+            f"Max elevation:        {max(max_eco_elev, max_std_elev)} m")
+        print(f"Average grade:      {(elevation_change/eco_dist)}")
+        print(
+            f"%Fuel Saved:      {((std_fuel_L-eco_fuel_L)/std_fuel_L)*100}%")
+        print(
+            f"%CO2 reduced:     {((std_co2_kg-eco_co2_kg)/std_co2_kg)*100}%")
+        print(f"Distance difference:        {dist_diff:.0f} m")
+        print("="*40 + "\n")
+
         comparison_data = {
             "Metric": ["Path Distance", "Energy Cost Score", "Estimated Fuel", "Estimated CO₂"],
             "Standard Route (Red)": [f"{standard_dist:.0f} m", f"{std_cost:.1f}", f"{(standard_dist/1000)*0.08:.2f} L", f"{((standard_dist/1000)*0.08)*2310:.0f} g"],
@@ -239,8 +273,6 @@ with tab2:
         st.pyplot(fig)
 
         # Additional metrics & takeaways
-        max_std_elev = max(std_elevs) if std_elevs else 0
-        max_eco_elev = max(eco_elevs) if eco_elevs else 0
 
         st.caption(
             f"**Peak Elevation Comparison:** Standard Route reaches **{max_std_elev:.1f} m** | "
@@ -251,7 +283,7 @@ with tab2:
         with col_a:
             st.info(
                 f"**Distance Trade-off:**\n"
-                f"The EcoRoute adds **{max(0, dist_diff):.0f} meters** of extra travel distance, but bypasses steep elevation changes."
+                f"The Eco Route adds **{max(0, dist_diff):.0f} meters** of extra travel distance, but bypasses steep elevation changes."
             )
         with col_b:
             st.success(
