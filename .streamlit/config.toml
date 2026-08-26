@@ -2,11 +2,9 @@
 base = "light" 
 primaryColor = "#228B22"
 
-# This customises what happens when the user manually switches to Light Mode
 [theme.light]
 primaryColor = "#228B22"
 
-# This customises what happens when the user manually switches to Dark Mode
 [theme.dark]
 primaryColor = "#228B22"
 
