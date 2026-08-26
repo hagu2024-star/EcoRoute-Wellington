@@ -103,7 +103,8 @@ with tab1:
             find_route = False
             st.error("Please select a vehicle type")
 
-        st.info('Please click the "Find Route" every time you change these options ')
+        st.info(
+            'Please click the "**Find Route**" every time you change these options ')
 
     if find_route:
         # display error
